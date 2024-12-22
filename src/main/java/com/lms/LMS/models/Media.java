@@ -1,5 +1,6 @@
 package com.lms.LMS.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -28,6 +29,7 @@ public class Media
     private String fileUrl;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "lesson_id")
     private Lesson lesson;
 }

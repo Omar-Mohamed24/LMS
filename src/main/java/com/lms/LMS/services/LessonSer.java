@@ -5,17 +5,12 @@ import com.lms.LMS.models.Course;
 import com.lms.LMS.models.Lesson;
 import com.lms.LMS.repositories.CourseRepo;
 import com.lms.LMS.repositories.LessonRepo;
-import com.lms.LMS.repositories.UserRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-
-import java.security.SecureRandom;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-import java.util.Random;
+
 
 @RequiredArgsConstructor
 @Service
@@ -23,8 +18,6 @@ public class LessonSer
 {
     private final LessonRepo lessonRepo;
     private final CourseRepo courseRepo;
-    private static final int OTP_LENGTH = 6;
-    private static final long OTP_EXPIRATION_TIME = 24 * 60 * 60 * 1000L; // 24 hours
 
     public Lesson createLesson(Long courseId, Lesson lesson)
     {
@@ -57,7 +50,6 @@ public class LessonSer
 
         lesson.setTitle(updatedLesson.getTitle());
         lesson.setDate(updatedLesson.getDate());
-        lesson.setOtp(updatedLesson.getOtp());
         return lessonRepo.save(lesson);
     }
 
@@ -95,29 +87,5 @@ public class LessonSer
         }
 
         return authentication.getAuthorities().stream().anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_ADMIN"));
-    }
-
-    private String generateOTP()
-    {
-        Random random = new SecureRandom();
-        StringBuilder otp = new StringBuilder(OTP_LENGTH);
-
-        for (int i = 0; i < OTP_LENGTH; i++) {
-            otp.append(random.nextInt(10)); // Generate digits (0-9)
-        }
-
-        return otp.toString();
-    }
-
-    private Date calculateOTPExpirationTime()
-    {
-        Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.MILLISECOND, (int) OTP_EXPIRATION_TIME); // Add expiration time (24 hours)
-        return calendar.getTime();
-    }
-
-    public boolean isOTPExpired(Lesson lesson)
-    {
-        return lesson.getOtpExpirationTime().before(new Date());
     }
 }

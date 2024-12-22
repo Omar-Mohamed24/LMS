@@ -1,14 +1,12 @@
 package com.lms.LMS.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @AllArgsConstructor
@@ -28,15 +26,10 @@ public class Lesson
     private String title;
 
     @Column(nullable = false)
-    private LocalDateTime date;
-
-    @Column(length = 6, unique = true)
-    private String otp;
-
-    @Column(nullable = false)
-    private Date otpExpirationTime;
+    private String date;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "course_id")
     private Course course;
 

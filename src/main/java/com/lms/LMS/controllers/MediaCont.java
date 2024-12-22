@@ -1,7 +1,7 @@
 package com.lms.LMS.controllers;
 
-import com.lms.LMS.models.Lesson;
-import com.lms.LMS.services.LessonSer;
+import com.lms.LMS.models.Media;
+import com.lms.LMS.services.MediaSer;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,21 +11,20 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Map;
 
-
 @RequiredArgsConstructor
-@RequestMapping("/api/courses/{courseId}/lessons")
+@RequestMapping("/api/courses/{lessonId}/media")
 @Controller
-public class LessonCont
+public class MediaCont
 {
-    private final LessonSer lessonSer;
+    private final MediaSer mediaSer;
 
     @PostMapping("/create")
-    public ResponseEntity<?> createLesson(@PathVariable Long courseId, @RequestBody Lesson lesson)
+    public ResponseEntity<?> addMediaToLesson(@PathVariable Long lessonId, @RequestBody Media media)
     {
         try
         {
-            Lesson savedLesson = lessonSer.createLesson(courseId, lesson);
-            return new ResponseEntity<>(savedLesson, HttpStatus.CREATED);
+            Media savedMedia = mediaSer.addMediaToLesson(lessonId, media);
+            return new ResponseEntity<>(savedMedia, HttpStatus.CREATED);
         }
         catch (Exception e)
         {
@@ -34,12 +33,12 @@ public class LessonCont
     }
 
     @GetMapping
-    public ResponseEntity<?> getLessonsByCourse(@PathVariable Long courseId)
+    public ResponseEntity<?> getMediaByLesson(@PathVariable Long lessonId)
     {
         try
         {
-            List<Lesson> lessons = lessonSer.getLessonsByCourse(courseId);
-            return new ResponseEntity<>(lessons, HttpStatus.OK);
+            List<Media> mediaList = mediaSer.getMediaByLesson(lessonId);
+            return new ResponseEntity<>(mediaList, HttpStatus.OK);
         }
         catch (Exception e)
         {
@@ -47,12 +46,12 @@ public class LessonCont
         }
     }
 
-    @PutMapping("/update/{lessonId}")
-    public ResponseEntity<?> updateLesson(@PathVariable Long courseId, @PathVariable Long lessonId, @RequestBody Lesson updatedLesson)
+    @PutMapping("/update/{mediaId}")
+    public ResponseEntity<?> updateMedia(@PathVariable Long lessonId, @PathVariable Long mediaId, @RequestBody Media updatedMedia)
     {
         try
         {
-            Lesson updated = lessonSer.updateLesson(lessonId, updatedLesson);
+            Media updated = mediaSer.updateMedia(mediaId, updatedMedia);
             return new ResponseEntity<>(updated, HttpStatus.OK);
         }
         catch (Exception e)
@@ -61,13 +60,13 @@ public class LessonCont
         }
     }
 
-    @DeleteMapping("/delete/{lessonId}")
-    public ResponseEntity<?> deleteLesson(@PathVariable Long courseId, @PathVariable Long lessonId)
+    @DeleteMapping("/delete/{mediaId}")
+    public ResponseEntity<?> deleteMedia(@PathVariable Long lessonId, @PathVariable Long mediaId)
     {
         try
         {
-            lessonSer.deleteLesson(lessonId);
-            return ResponseEntity.ok("Lesson deleted successfully");
+            mediaSer.deleteMedia(mediaId);
+            return ResponseEntity.ok("Media deleted successfully");
         }
         catch (Exception e)
         {
