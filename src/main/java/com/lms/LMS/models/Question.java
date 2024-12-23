@@ -1,5 +1,6 @@
 package com.lms.LMS.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -20,14 +21,15 @@ public class Question
 
     private String questionText;
 
-    private String optionA;
-    private String optionB;
-    private String optionC;
-    private String optionD;
+    private String A;
+    private String B;
+    private String C;
+    private String D;
 
     private String correctAnswer;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "quiz_id")
     private Quiz quiz;
 }

@@ -20,10 +20,12 @@ public class Enrollment
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "course_id")
-    private Course course;
+    @JoinColumn(name = "student_id", nullable = false)
+    private User student;
 
     @ManyToOne
-    @JoinColumn(name = "student_id")
-    private User student;
+    @JoinColumn(name = "course_id", nullable = false)
+    private Course course;
+
+    private boolean completed = false;
 }

@@ -7,8 +7,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDate;
-
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -25,7 +23,7 @@ public class Assignment
 
     private String description;
 
-    private LocalDate dueDate;
+    private String dueDate;
 
     @ManyToOne
     @JsonIgnore

@@ -1,5 +1,6 @@
 package com.lms.LMS.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -25,11 +26,12 @@ public class Quiz
 
     private String description;
 
-    private LocalDate quizDate;
+    private String quizDate;
 
     private int duration;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "course_id")
     private Course course;
 
