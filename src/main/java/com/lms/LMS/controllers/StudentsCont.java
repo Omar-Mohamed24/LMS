@@ -1,7 +1,11 @@
 package com.lms.LMS.controllers;
 
+import com.lms.LMS.models.AssignmentSubmission;
 import com.lms.LMS.models.Course;
 import com.lms.LMS.models.Enrollment;
+import com.lms.LMS.models.QuizSubmission;
+import com.lms.LMS.services.AssignmentSubmissionSer;
+import com.lms.LMS.services.QuizSubmissionSer;
 import com.lms.LMS.services.StudentSer;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -17,6 +21,8 @@ import java.util.List;
 public class StudentsCont
 {
     private final StudentSer studentService;
+    private final QuizSubmissionSer quizSubmissionSer;
+    private final AssignmentSubmissionSer assignmentSubmissionSer;
 
     // Get all available courses for a student
     @GetMapping("/courses")
@@ -48,5 +54,20 @@ public class StudentsCont
         String studentId = SecurityContextHolder.getContext().getAuthentication().getName();
         List<Enrollment> enrollments = studentService.getEnrollmentsByStudent(studentId);
         return new ResponseEntity<>(enrollments, HttpStatus.OK);
+    }
+
+    @GetMapping("/submissions/quizzes")
+    public ResponseEntity<List<QuizSubmission>> getQuizSubmissions()
+    {
+        String studentId = SecurityContextHolder.getContext().getAuthentication().getName();
+        List<QuizSubmission> submissions = quizSubmissionSer.getQuizSubmissionsByStudent(studentId);
+        return ResponseEntity.ok(submissions);
+    }
+
+    @GetMapping("/submissions/assignments")
+    public ResponseEntity<List<AssignmentSubmission>> getAssignmentSubmissions() {
+        String studentId = SecurityContextHolder.getContext().getAuthentication().getName();
+        List<AssignmentSubmission> submissions = assignmentSubmissionSer.getAssignmentSubmissionsByStudent(studentId);
+        return ResponseEntity.ok(submissions);
     }
 }
