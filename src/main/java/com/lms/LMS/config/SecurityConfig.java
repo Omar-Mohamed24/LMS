@@ -28,8 +28,9 @@ public class SecurityConfig
                 .securityMatcher("/api/**")
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/api/users/**").permitAll()
-                        .requestMatchers("/api/courses/all").permitAll()
                         .requestMatchers("/api/courses/**").hasAnyRole(Role.INSTRUCTOR.name(), Role.ADMIN.name())
+                        .requestMatchers("/api/students/**").hasRole(Role.STUDENT.name())
+                        .requestMatchers("/api/teacher/**").hasRole(Role.INSTRUCTOR.name())
                         .anyRequest().authenticated()
                 ).sessionManagement((session) -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)

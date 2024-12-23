@@ -1,11 +1,15 @@
 package com.lms.LMS.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.ArrayList;
 import java.util.List;
 
 @AllArgsConstructor
@@ -27,7 +31,7 @@ public class Course
     private String description;
 
     @Column(nullable = false)
-    private int duration; // Duration in hours
+    private int duration;
 
     @ManyToOne
     @JoinColumn(name = "instructor_id", nullable = false)
@@ -42,7 +46,7 @@ public class Course
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Lesson> lessons;
 
-    @JsonIgnore
+    @JsonIgnoreProperties("course")
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Enrollment> enrollments;
 }
